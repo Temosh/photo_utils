@@ -43,7 +43,7 @@ sort_dir() {
 	echo "Sorting directory ${dir}..."
 
 	local jpeg_dir
-	jpeg_dir="${dir}/${jpeg_folder}"
+		jpeg_dir="${dir}/${jpeg_folder}"
 	sort_files "${dir}" "${jpeg_dir}"
 
 	echo -e "${GREEN}Sorted directory ${dir}${NC}"
@@ -51,7 +51,7 @@ sort_dir() {
 
 sort_files() {
 	local dir="$1"
-	local jpeg_dir="$2"
+			local jpeg_dir="$2"
 
 	for subdir in $dir/*/; do
 		if [ -d ${subdir} ]; then
@@ -117,7 +117,7 @@ then
 	exit 1
 fi 
 
-dir="$(realpath $1)"
+dir="$(realpath "$1")"
 dir="${dir%/}"
 jpeg_folder="${2:-${DEFAULT_JPEG_FOLDER_NAME}}"
 
