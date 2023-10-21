@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+readonly DEFAULT_JPEG_FOLDER_NAME="Jpeg Native"
+
 readonly BLACK='\033[0;30m'
 readonly RED='\033[0;31m'
 readonly GREEN='\033[0;32m'
@@ -11,10 +13,10 @@ readonly WHITE='\033[0;37m'
 readonly NC='\033[0m' # No Color
 
 usage() {
-	echo "photo_sort {path} {jpeg_folder_name}"
+	echo "photo_sort <path> [jpeg_folder_name]"
 	echo ""
 	echo "path  - folder with sorted RAW photos and unsorted JPEG"
-	echo "jpeg_folder_name - name of folder with JPEG photos"
+	echo "jpeg_folder_name - name of folder with JPEG photos. Default value: 'Jpeg Native'"
 	echo ""
 	echo "Note: photos in folder 'Trash' to be deleted manually"
 }
@@ -109,7 +111,7 @@ sort_files() {
 	done
 }
 
-if [ $# -ne 2 ] 
+if [[ $# < 1 || $# > 2 ]] 
 then 
 	usage
 	exit 1
@@ -117,9 +119,10 @@ fi
 
 dir="$(realpath $1)"
 dir="${dir%/}"
-jpeg_folder="$2"
+jpeg_folder="${2:-${DEFAULT_JPEG_FOLDER_NAME}}"
 
-if [ ! -d "${dir}" ]; then echo "Directory ${dir} does not exist"; exit 2; fi
+if [[ ! -d "${dir}" ]]; then echo "Directory ${dir} does not exist"; exit 2; fi
+if [[ -z "${jpeg_folder}" ]]; then echo "Invalid JPEG folder name"; exit 3; fi
 
 # Setting Internal Field Separator to split on new lines
 IFS_ORIGIN=$IFS
